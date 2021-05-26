@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="haq-q3-HDV">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Фильмы-->
+        <scene sceneID="jLz-1L-b4L">
+            <objects>
+                <collectionViewController id="C3v-Sf-WZW" customClass="MoviesViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Tdm-xA-Zh7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4oH-pI-nNi">
+                            <size key="itemSize" width="158" height="200"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieCell" id="bup-gX-wIM" customClass="MovieCell" customModule="MoviesMobileApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="158" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="G7w-hg-0xw">
+                                    <rect key="frame" x="0.0" y="0.0" width="158" height="200"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="default-image" translatesAutoresizingMaskIntoConstraints="NO" id="Sjp-e4-Bf4">
+                                            <rect key="frame" x="0.0" y="0.0" width="158" height="200"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zat-Kx-Gwo">
+                                            <rect key="frame" x="8" y="166" width="142" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="Zat-Kx-Gwo" secondAttribute="bottom" constant="16" id="BLD-WN-8Fr"/>
+                                        <constraint firstItem="Sjp-e4-Bf4" firstAttribute="top" secondItem="G7w-hg-0xw" secondAttribute="top" id="hd4-2I-gmb"/>
+                                        <constraint firstAttribute="trailing" secondItem="Zat-Kx-Gwo" secondAttribute="trailing" constant="8" id="kFb-6K-eNX"/>
+                                        <constraint firstItem="Sjp-e4-Bf4" firstAttribute="leading" secondItem="G7w-hg-0xw" secondAttribute="leading" id="mIC-eK-sos"/>
+                                        <constraint firstItem="Zat-Kx-Gwo" firstAttribute="leading" secondItem="G7w-hg-0xw" secondAttribute="leading" constant="8" id="mVp-J5-65G"/>
+                                        <constraint firstAttribute="bottom" secondItem="Sjp-e4-Bf4" secondAttribute="bottom" id="s2u-Fe-3q1"/>
+                                        <constraint firstAttribute="trailing" secondItem="Sjp-e4-Bf4" secondAttribute="trailing" id="z02-nF-GFe"/>
+                                    </constraints>
+                                </collectionViewCellContentView>
+                                <size key="customSize" width="158" height="200"/>
+                                <connections>
+                                    <outlet property="movieImageView" destination="Sjp-e4-Bf4" id="udU-NY-hFr"/>
+                                    <outlet property="titleLabel" destination="Zat-Kx-Gwo" id="off-47-OGm"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="C3v-Sf-WZW" id="7mV-67-mUi"/>
+                            <outlet property="delegate" destination="C3v-Sf-WZW" id="wjA-JU-2h4"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="Фильмы" id="1QR-je-WPa"/>
+                    <connections>
+                        <outlet property="moviesCollectionView" destination="Tdm-xA-Zh7" id="xio-TK-qdD"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z4F-ZH-0ie" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="563.768115942029" y="25.446428571428569"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AOn-S3-Can">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="haq-q3-HDV" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8yW-Rq-G1T">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="C3v-Sf-WZW" kind="relationship" relationship="rootViewController" id="lCT-cf-Stu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GYg-hq-2TT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-346.37681159420293" y="25.446428571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="default-image" width="620" height="600"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
