@@ -12,7 +12,6 @@ class MoviesViewController: UICollectionViewController {
     @IBOutlet weak var moviesCollectionView: UICollectionView!
     
     private let refreshControl = UIRefreshControl()
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     private var movies = [MovieStruct]()
     private var networkManager = NetworkManager()
@@ -21,6 +20,12 @@ class MoviesViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        moviesCollectionView.refreshControl = refreshControl
+        moviesCollectionView.register(FooterCollectionReusableView.self,
+                                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                      withReuseIdentifier: FooterCollectionReusableView.identifier)
         loadData()
     }
     
@@ -32,17 +37,18 @@ class MoviesViewController: UICollectionViewController {
     
     func loadData() {
         isLoading = true
-        activityIndicator.startAnimating()
         
         networkManager.performRequest(with: MoviesEndpoint.getMovies(page: page)) { [weak self] result in
             guard let self = self else { return }
                         
             switch result {
-            case let .success(moviesData):
-                if self.page == 1 {
-                    self.movies += moviesData
-                    self.page += 1
-                }
+            case let .success(results):
+                 if self.page == 1 {
+                     self.movies = results
+                 } else {
+                     self.movies += results
+                 }
+                self.page += 1
                 
             case let .failure(error):
                  DispatchQueue.main.async {
@@ -68,6 +74,14 @@ class MoviesViewController: UICollectionViewController {
 
          present(alertController, animated: true, completion: nil)
      }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !isLoading else { return }
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        if maximumOffset - scrollView.contentOffset.y <= 0 {
+            loadData()
+        }
+    }
     
 
     // MARK: UICollectionViewDataSource
@@ -99,6 +113,19 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
         let widthPerItem = availableWidth / itemsPerRow
         return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
         
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = moviesCollectionView.dequeueReusableSupplementaryView(
+                     ofKind: UICollectionView.elementKindSectionFooter,
+                     withReuseIdentifier: FooterCollectionReusableView.identifier,
+                     for: indexPath
+        ) as! FooterCollectionReusableView
+        
+        footer.configure(isLoading: isLoading)
+        if isLoading { isLoading.toggle() }
+        
+        return footer
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

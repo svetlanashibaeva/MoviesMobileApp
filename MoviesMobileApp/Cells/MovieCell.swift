@@ -33,4 +33,5 @@ class MovieCell: UICollectionViewCell {
         movieImageView.kf.setImage(with: url,
                                     placeholder: UIImage(named: "default-image.jpg"))
     }
+    
 }

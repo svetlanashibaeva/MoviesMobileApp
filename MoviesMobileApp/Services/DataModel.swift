@@ -21,6 +21,16 @@ struct MovieStruct: Codable {
     let releaseDate: String?
     let voteAverage: Double?
     
+    enum CodingKeys: String, CodingKey {
+        case posterPath = "poster_path"
+        case title
+        case originalTitle
+        case voteAverage = "vote_average"
+        case id
+        case overview
+        case releaseDate = "release_date"
+    }
+    
     var imageURL: String? {
         guard let posterPath = posterPath else {
             return nil
