@@ -7,16 +7,18 @@
 
 import UIKit
 
-
 class MoviesViewController: UICollectionViewController {
     @IBOutlet weak var moviesCollectionView: UICollectionView!
     
     private let refreshControl = UIRefreshControl()
     
-    private var movies = [MovieStruct]()
     private var networkManager = NetworkManager()
-    var page = 1
+    
+    private var movies = [MovieStruct]()
+    private var selectedMovieId: Int?
+    private var page = 1
     private var isLoading = false
+    private var isListEnded = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +50,7 @@ class MoviesViewController: UICollectionViewController {
                  } else {
                      self.movies += results
                  }
+                self.isListEnded = results.isEmpty
                 self.page += 1
                 
             case let .failure(error):
@@ -66,14 +69,18 @@ class MoviesViewController: UICollectionViewController {
     
     func showError(error: String) {
          let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-         let errorAction = UIAlertAction(title: "Ok", style: .default) { (action) in
-
-         }
-
+         let errorAction = UIAlertAction(title: "Ok", style: .default)
          alertController.addAction(errorAction)
 
          present(alertController, animated: true, completion: nil)
      }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "MovieDetails",
+           let movieVC = segue.destination as? MovieDetailsViewController {
+            movieVC.movieId = selectedMovieId
+        }
+    }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !isLoading else { return }
@@ -82,14 +89,12 @@ class MoviesViewController: UICollectionViewController {
             loadData()
         }
     }
-    
 
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
@@ -102,6 +107,13 @@ class MoviesViewController: UICollectionViewController {
 
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        selectedMovieId = movies[indexPath.item].id
+        
+        performSegue(withIdentifier: "MovieDetails", sender: self)
+    }
 }
 
 extension MoviesViewController: UICollectionViewDelegateFlowLayout {
@@ -112,20 +124,26 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
         let availableWidth = collectionView.frame.width - paddingWidth
         let widthPerItem = availableWidth / itemsPerRow
         return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
-        
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let footer = moviesCollectionView.dequeueReusableSupplementaryView(
+        let footer = collectionView.dequeueReusableSupplementaryView(
                      ofKind: UICollectionView.elementKindSectionFooter,
                      withReuseIdentifier: FooterCollectionReusableView.identifier,
                      for: indexPath
         ) as! FooterCollectionReusableView
         
-        footer.configure(isLoading: isLoading)
-        if isLoading { isLoading.toggle() }
+        footer.configure()
         
         return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard !isListEnded else {
+            return .zero
+        }
+        
+        return CGSize(width: view.frame.size.width, height: 36)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

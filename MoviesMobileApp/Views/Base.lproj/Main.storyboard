@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -67,11 +68,44 @@
                     <navigationItem key="navigationItem" title="Фильмы" id="1QR-je-WPa"/>
                     <connections>
                         <outlet property="moviesCollectionView" destination="Tdm-xA-Zh7" id="xio-TK-qdD"/>
+                        <segue destination="j9r-Fl-Oo8" kind="show" identifier="MovieDetails" id="UWq-Xv-g7g"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z4F-ZH-0ie" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="563.768115942029" y="25.446428571428569"/>
+        </scene>
+        <!--Movie Details View Controller-->
+        <scene sceneID="Zxa-Jy-uzx">
+            <objects>
+                <viewController id="j9r-Fl-Oo8" customClass="MovieDetailsViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="o9Z-fu-YFJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8VM-M7-9wb">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="j9r-Fl-Oo8" id="8IS-QJ-pGc"/>
+                                    <outlet property="delegate" destination="j9r-Fl-Oo8" id="Asd-Ub-dQN"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iqC-9k-PSk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iqC-9k-PSk" firstAttribute="bottom" secondItem="8VM-M7-9wb" secondAttribute="bottom" id="4F4-ZH-bGu"/>
+                            <constraint firstItem="8VM-M7-9wb" firstAttribute="leading" secondItem="iqC-9k-PSk" secondAttribute="leading" id="77f-NN-ArB"/>
+                            <constraint firstItem="8VM-M7-9wb" firstAttribute="top" secondItem="iqC-9k-PSk" secondAttribute="top" id="863-cm-XEz"/>
+                            <constraint firstItem="iqC-9k-PSk" firstAttribute="trailing" secondItem="8VM-M7-9wb" secondAttribute="trailing" id="aS0-nR-BdO"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="E1e-Mc-big"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aux-hR-vLx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1330.4347826086957" y="24.776785714285712"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AOn-S3-Can">

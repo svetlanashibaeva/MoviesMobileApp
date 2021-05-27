@@ -11,17 +11,13 @@ class FooterCollectionReusableView: UICollectionReusableView {
     
     static let identifier = "FooterCollectionReusableView"
     
-    private var activityIndicator = UIActivityIndicatorView(style: .large)
+    private var activityIndicator = UIActivityIndicatorView(style: .medium)
     
-    public func configure(isLoading: Bool = false) {
+    public func configure() {
         backgroundColor = .white
         addSubview(activityIndicator)
         
-        if isLoading {
-            activityIndicator.startAnimating()
-        } else {
-            activityIndicator.stopAnimating()
-        }
+        activityIndicator.startAnimating()
     }
     
     override func layoutSubviews() {
