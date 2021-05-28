@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ResponseMovie: Codable {
+struct ResponseMovie: Decodable {
     let page: Int
     let results: [MovieStruct]
 }
 
-struct MovieStruct: Codable {
+struct MovieStruct: Decodable {
     let id: Int?
     let title: String?
     let originalTitle: String?
@@ -21,16 +21,6 @@ struct MovieStruct: Codable {
     let releaseDate: String?
     let voteAverage: Double?
     
-    enum CodingKeys: String, CodingKey {
-        case posterPath = "poster_path"
-        case title
-        case originalTitle
-        case voteAverage = "vote_average"
-        case id
-        case overview
-        case releaseDate = "release_date"
-    }
-    
     var imageURL: String? {
         guard let posterPath = posterPath else {
             return nil
@@ -38,4 +28,5 @@ struct MovieStruct: Codable {
         return "https://image.tmdb.org/t/p/w300/\(posterPath)"
     }
 }
+
 

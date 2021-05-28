@@ -12,7 +12,6 @@ protocol EndpointProtocol {
     var host: String { get }
     var path: String { get }
     var params: [String: String] { get }
-    var headers: [String: String] { get }
 }
 
 extension EndpointProtocol {

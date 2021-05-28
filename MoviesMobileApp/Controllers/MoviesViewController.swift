@@ -12,7 +12,7 @@ class MoviesViewController: UICollectionViewController {
     
     private let refreshControl = UIRefreshControl()
     
-    private var networkManager = NetworkManager()
+    private var movieListService = MovieListService()
     
     private var movies = [MovieStruct]()
     private var selectedMovieId: Int?
@@ -40,17 +40,19 @@ class MoviesViewController: UICollectionViewController {
     func loadData() {
         isLoading = true
         
-        networkManager.performRequest(with: MoviesEndpoint.getMovies(page: page)) { [weak self] result in
+        movieListService.getList(page: page) { [weak self] result in
             guard let self = self else { return }
                         
             switch result {
-            case let .success(results):
+            case let .success(response):
+                let movies = response.results
+                
                  if self.page == 1 {
-                     self.movies = results
+                     self.movies = movies
                  } else {
-                     self.movies += results
+                     self.movies += movies
                  }
-                self.isListEnded = results.isEmpty
+                self.isListEnded = movies.isEmpty
                 self.page += 1
                 
             case let .failure(error):
@@ -66,14 +68,6 @@ class MoviesViewController: UICollectionViewController {
              }
         }
     }
-    
-    func showError(error: String) {
-         let alertController = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-         let errorAction = UIAlertAction(title: "Ok", style: .default)
-         alertController.addAction(errorAction)
-
-         present(alertController, animated: true, completion: nil)
-     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MovieDetails",
@@ -101,7 +95,7 @@ class MoviesViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MovieCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.identifier, for: indexPath) as! MovieCell
         let movie = movies[indexPath.item]
         cell.configure(with: movie)
 

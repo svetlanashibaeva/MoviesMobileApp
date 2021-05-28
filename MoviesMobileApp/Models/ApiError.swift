@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MyError: LocalizedError {
+enum ApiError: LocalizedError {
     case urlError
     case unkmownError
     case parseError

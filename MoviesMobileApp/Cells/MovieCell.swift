@@ -10,6 +10,8 @@ import Kingfisher
 
 class MovieCell: UICollectionViewCell {
     
+    static let identifier = "MovieCell"
+    
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
