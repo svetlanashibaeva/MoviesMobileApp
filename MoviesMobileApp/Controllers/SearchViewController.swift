@@ -1,18 +1,17 @@
 //
-//  MoviesViewController.swift
+//  SearchViewController.swift
 //  MoviesMobileApp
 //
-//  Created by Света Шибаева on 24.05.2021.
+//  Created by Света Шибаева on 29.05.2021.
 //
 
 import UIKit
 
-class MoviesViewController: UICollectionViewController {
-    @IBOutlet weak var moviesCollectionView: UICollectionView!
+class SearchViewController: UIViewController {
+
+    @IBOutlet weak var collectionView: UICollectionView!
     
-    private let refreshControl = UIRefreshControl()
-    
-    private var movieListService = MovieListService()
+    private var searchService = SearchService()
     
     private var movies = [MovieStruct]()
     private var selectedMovieId: Int?
@@ -23,31 +22,23 @@ class MoviesViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        moviesCollectionView.refreshControl = refreshControl
-        moviesCollectionView.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: MovieCell.identifier)
-        moviesCollectionView.register(FooterCollectionReusableView.self,
+        collectionView.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: MovieCell.identifier)
+        collectionView.register(FooterCollectionReusableView.self,
                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                       withReuseIdentifier: FooterCollectionReusableView.identifier)
-        loadData()
-    }
-    
-    @objc private func refresh() {
-        guard !isLoading else { return }
-        page = 1
         loadData()
     }
     
     func loadData() {
         isLoading = true
         
-        movieListService.getList(page: page) { [weak self] result in
+        searchService.getList(query: "spider", page: page) { [weak self] result in
             guard let self = self else { return }
-                        
+
             switch result {
             case let .success(response):
                 let movies = response.results
-                
+
                  if self.page == 1 {
                      self.movies = movies
                  } else {
@@ -55,18 +46,15 @@ class MoviesViewController: UICollectionViewController {
                  }
                 self.isListEnded = movies.isEmpty
                 self.page += 1
-                
+
             case let .failure(error):
                  DispatchQueue.main.async {
                      self.showError(error: error.localizedDescription)
                  }
              }
-            
+
             DispatchQueue.main.async {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
-                    self.refreshControl.endRefreshing()
-                }
-                 self.moviesCollectionView.reloadData()
+                 self.collectionView.reloadData()
                  self.isLoading = false
              }
         }
@@ -78,57 +66,58 @@ class MoviesViewController: UICollectionViewController {
             movieVC.movieId = selectedMovieId
         }
     }
+}
+
+extension SearchViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return movies.count
+    }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.identifier, for: indexPath) as! MovieCell
+        let movie = movies[indexPath.item]
+        cell.configure(with: movie)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        selectedMovieId = movies[indexPath.item].id
+        
+        performSegue(withIdentifier: "MovieDetails", sender: self)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView.dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: FooterCollectionReusableView.identifier,
+            for: indexPath
+        ) as! FooterCollectionReusableView
+        
+        footer.configure()
+        
+        return footer
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !isLoading else { return }
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         if maximumOffset - scrollView.contentOffset.y <= 0 {
             loadData()
         }
     }
-
-    // MARK: UICollectionViewDataSource
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCell.identifier, for: indexPath) as! MovieCell
-        let movie = movies[indexPath.item]
-        cell.configure(with: movie)
-
-        return cell
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        selectedMovieId = movies[indexPath.item].id
-        
-        performSegue(withIdentifier: "MovieDetails", sender: self)
-    }
 }
 
-extension MoviesViewController: UICollectionViewDelegateFlowLayout {
-    
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow: CGFloat = 2
         let paddingWidth = 20 * (itemsPerRow + 1)
         let availableWidth = collectionView.frame.width - paddingWidth
         let widthPerItem = availableWidth / itemsPerRow
         return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let footer = collectionView.dequeueReusableSupplementaryView(
-                     ofKind: UICollectionView.elementKindSectionFooter,
-                     withReuseIdentifier: FooterCollectionReusableView.identifier,
-                     for: indexPath
-        ) as! FooterCollectionReusableView
-        
-        footer.configure()
-        
-        return footer
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {

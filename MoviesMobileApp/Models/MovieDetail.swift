@@ -14,10 +14,8 @@ struct MovieDetail: Decodable {
     let releaseDate: String?
     let posterPath: String?
     let overview: String?
-    
-    var genre: [String] {
-        return ["Ужасы", "Фантастика"]
-    }
+    let genres: [Genre]?
+    let voteAverage: Double?
     
     var imageURL: String? {
         guard let posterPath = posterPath else {

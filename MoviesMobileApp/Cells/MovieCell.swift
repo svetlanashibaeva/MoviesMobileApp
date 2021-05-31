@@ -14,14 +14,12 @@ class MovieCell: UICollectionViewCell {
     
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    
-//    https://image.tmdb.org/t/p/w300////pMIixvHwsD5RZxbvgsDSNkpKy0R.jpg
-    
-    
+    @IBOutlet weak var ratingLabel: UILabel!
     
     func configure(with movies: MovieStruct) {
         
         titleLabel.text = movies.title
+        ratingLabel.text = movies.voteAverage?.description
         setImage(imageURL: movies.imageURL)
     }
     
@@ -31,7 +29,6 @@ class MovieCell: UICollectionViewCell {
         }
         let url = URL(string: imageURL)
         movieImageView.kf.indicatorType = .activity
-        movieImageView.kf.setImage(with: url)
         movieImageView.kf.setImage(with: url,
                                     placeholder: UIImage(named: "default-image.jpg"))
     }

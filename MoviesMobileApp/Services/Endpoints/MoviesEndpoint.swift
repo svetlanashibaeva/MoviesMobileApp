@@ -10,6 +10,7 @@ import Foundation
 enum MoviesEndpoint {
     case getMovies(page: Int)
     case getMovieDetails(id: Int)
+    case searchMovies(query: String, page: Int)
 }
 
 extension MoviesEndpoint: EndpointProtocol {
@@ -24,8 +25,9 @@ extension MoviesEndpoint: EndpointProtocol {
             return "/3/discover/movie"
         case let .getMovieDetails(id):
             return "/3/movie/\(id)"
+        case .searchMovies:
+            return "/3/search/movie"
         }
-        
     }
     
     var params: [String : String] {
@@ -37,7 +39,10 @@ extension MoviesEndpoint: EndpointProtocol {
         switch self {
         case let .getMovies(page):
             params["sort_by"] = "popularity.desc"
-            params["page"] = "\(page)"
+            params["page"] = page.description
+        case let .searchMovies(query, page):
+            params["page"] = page.description
+            params["query"] = query
         default:
             break
         }

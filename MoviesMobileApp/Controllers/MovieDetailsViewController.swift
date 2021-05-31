@@ -9,9 +9,11 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController {
     
-    
     private var movieDetail: MovieDetail?
     private let movieDetailService = MovieDetailsService()
+    
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+
     var movieId: Int?
     
     @IBOutlet weak var tableView: UITableView!
@@ -24,10 +26,12 @@ class MovieDetailsViewController: UIViewController {
     }
     
     private func loadData() {
+        showActivityIndicator()
+        
         guard let movieId = movieId else { return }
         movieDetailService.movieDetail(id: movieId) { [weak self] result in
             guard let self = self else { return }
-             
+            
             DispatchQueue.main.async {
                 switch result {
                 case let .success(movie):
@@ -37,9 +41,17 @@ class MovieDetailsViewController: UIViewController {
                     self.showError(error: error.localizedDescription) { _ in
                         self.navigationController?.popViewController(animated: true)
                     }
-                 }
-             }
+                }
+                self.activityIndicator.stopAnimating()
+            }
         }
+    }
+    
+    func showActivityIndicator() {
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
     }
 }
 
@@ -66,8 +78,4 @@ extension MovieDetailsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
     }
-}
-
-extension MovieDetailsViewController: UITableViewDelegate {
-    
 }

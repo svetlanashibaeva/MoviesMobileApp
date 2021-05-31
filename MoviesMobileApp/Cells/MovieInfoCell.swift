@@ -14,13 +14,19 @@ class MovieInfoCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var originalNameLabel: UILabel!
     @IBOutlet weak var datePremierLabel: UILabel!    
+    @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var genreLabel: UILabel!
     
     func configure(with movies: MovieDetail) {
         nameLabel.text = movies.title
         originalNameLabel.text = movies.originalTitle
         datePremierLabel.text = movies.releaseDate?.description
-        genreLabel.text = movies.genre.joined(separator: " ")
+        
+        genreLabel.text = movies.genres?
+            .map({ $0.name.capitalized })
+            .joined(separator: ", ")
+        ratingLabel.text = movies.voteAverage?.description
+        
         setImage(imageURL: movies.imageURL)
     }
     
@@ -30,7 +36,6 @@ class MovieInfoCell: UITableViewCell {
         }
         let url = URL(string: imageURL)
         movieImageView.kf.indicatorType = .activity
-        movieImageView.kf.setImage(with: url)
         movieImageView.kf.setImage(with: url,
                                     placeholder: UIImage(named: "default-image.jpg"))
     }
