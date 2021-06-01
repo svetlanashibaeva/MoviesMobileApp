@@ -17,7 +17,6 @@ class MovieCell: UICollectionViewCell {
     @IBOutlet weak var ratingLabel: UILabel!
     
     func configure(with movies: MovieStruct) {
-        
         titleLabel.text = movies.title
         ratingLabel.text = movies.voteAverage?.description
         setImage(imageURL: movies.imageURL)
@@ -25,12 +24,19 @@ class MovieCell: UICollectionViewCell {
     
     private func setImage(imageURL: String?) {
         guard let imageURL = imageURL else {
+            movieImageView.image = UIImage(named: "default-image.jpg")
             return
         }
         let url = URL(string: imageURL)
         movieImageView.kf.indicatorType = .activity
-        movieImageView.kf.setImage(with: url,
-                                    placeholder: UIImage(named: "default-image.jpg"))
+        movieImageView.kf.setImage(with: url, placeholder: UIImage(named: "default-image.jpg"))
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        titleLabel.text = nil
+        ratingLabel.text = nil
+        movieImageView.image = nil
+    }
 }

@@ -11,13 +11,16 @@ class SearchViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
+    private var searchController = UISearchController()
+    
     private var searchService = SearchService()
     
     private var movies = [MovieStruct]()
-    private var selectedMovieId: Int?
+    private var selectedMovie: MovieStruct?
     private var page = 1
     private var isLoading = false
-    private var isListEnded = false
+    private var isListEnded = true
+    private var timer: Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,13 +29,19 @@ class SearchViewController: UIViewController {
         collectionView.register(FooterCollectionReusableView.self,
                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                       withReuseIdentifier: FooterCollectionReusableView.identifier)
-        loadData()
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
     }
     
-    func loadData() {
+    func loadData(query: String?) {
+        guard let query = query, !query.isEmpty else {
+            return
+        }
+        
         isLoading = true
         
-        searchService.getList(query: "spider", page: page) { [weak self] result in
+        searchService.getList(query: query, page: page) { [weak self] result in
             guard let self = self else { return }
 
             switch result {
@@ -60,10 +69,18 @@ class SearchViewController: UIViewController {
         }
     }
     
+    private func clear() {
+        isListEnded = true
+        movies = []
+        collectionView.reloadData()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MovieDetails",
-           let movieVC = segue.destination as? MovieDetailsViewController {
-            movieVC.movieId = selectedMovieId
+           let movieVC = segue.destination as? MovieDetailsViewController,
+           let id = selectedMovie?.id,
+           let title = selectedMovie?.title {
+            movieVC.movieInfo = MovieInfo(id, title)
         }
     }
 }
@@ -83,7 +100,7 @@ extension SearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        selectedMovieId = movies[indexPath.item].id
+        selectedMovie = movies[indexPath.item]
         
         performSegue(withIdentifier: "MovieDetails", sender: self)
     }
@@ -106,7 +123,7 @@ extension SearchViewController: UICollectionViewDelegate {
         guard !isLoading else { return }
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         if maximumOffset - scrollView.contentOffset.y <= 0 {
-            loadData()
+            loadData(query: searchController.searchBar.text)
         }
     }
 }
@@ -138,5 +155,22 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 20
+    }
+}
+
+extension SearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        timer?.invalidate()
+        
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
+            clear()
+            return
+        }
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { [weak self] (timer) in
+            self?.page = 1
+            self?.isListEnded = false
+            self?.loadData(query: searchText)
+        })
     }
 }

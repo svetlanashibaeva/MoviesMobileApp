@@ -15,7 +15,7 @@ class MoviesViewController: UICollectionViewController {
     private var movieListService = MovieListService()
     
     private var movies = [MovieStruct]()
-    private var selectedMovieId: Int?
+    private var selectedMovie: MovieStruct?
     private var page = 1
     private var isLoading = false
     private var isListEnded = false
@@ -74,8 +74,10 @@ class MoviesViewController: UICollectionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "MovieDetails",
-           let movieVC = segue.destination as? MovieDetailsViewController {
-            movieVC.movieId = selectedMovieId
+           let movieVC = segue.destination as? MovieDetailsViewController,
+           let id = selectedMovie?.id,
+           let title = selectedMovie?.title {
+            movieVC.movieInfo = MovieInfo(id, title)
         }
     }
     
@@ -103,7 +105,7 @@ class MoviesViewController: UICollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        selectedMovieId = movies[indexPath.item].id
+        selectedMovie = movies[indexPath.item]
         
         performSegue(withIdentifier: "MovieDetails", sender: self)
     }

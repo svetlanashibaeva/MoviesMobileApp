@@ -32,12 +32,12 @@ class MovieInfoCell: UITableViewCell {
     
     private func setImage(imageURL: String?) {
         guard let imageURL = imageURL else {
+            movieImageView.image = UIImage(named: "default-image.jpg")
             return
         }
         let url = URL(string: imageURL)
         movieImageView.kf.indicatorType = .activity
-        movieImageView.kf.setImage(with: url,
-                                    placeholder: UIImage(named: "default-image.jpg"))
+        movieImageView.kf.setImage(with: url, placeholder: UIImage(named: "default-image.jpg"))
     }
     
 }

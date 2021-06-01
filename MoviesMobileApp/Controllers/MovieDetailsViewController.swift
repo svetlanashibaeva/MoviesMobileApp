@@ -7,6 +7,8 @@
 
 import UIKit
 
+typealias MovieInfo = (id: Int, title: String)
+
 class MovieDetailsViewController: UIViewController {
     
     private var movieDetail: MovieDetail?
@@ -14,13 +16,14 @@ class MovieDetailsViewController: UIViewController {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
 
-    var movieId: Int?
+    var movieInfo: MovieInfo?
     
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        title = movieInfo?.title
         
         loadData()
     }
@@ -28,7 +31,7 @@ class MovieDetailsViewController: UIViewController {
     private func loadData() {
         showActivityIndicator()
         
-        guard let movieId = movieId else { return }
+        guard let movieId = movieInfo?.id else { return }
         movieDetailService.movieDetail(id: movieId) { [weak self] result in
             guard let self = self else { return }
             
