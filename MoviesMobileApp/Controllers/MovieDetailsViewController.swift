@@ -12,7 +12,11 @@ typealias MovieInfo = (id: Int, title: String)
 class MovieDetailsViewController: UIViewController {
     
     private var movieDetail: MovieDetail?
+    private var movieVideo: [Video]?
     private let movieDetailService = MovieDetailsService()
+    private let movieVideoService = MovieVideoService()
+    
+    private var error: Error?
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)
 
@@ -31,21 +35,49 @@ class MovieDetailsViewController: UIViewController {
     private func loadData() {
         showActivityIndicator()
         
+        let queue = DispatchQueue(label: "queue", attributes: .concurrent)
+        let taskRequestGroup = DispatchGroup()
+        
         guard let movieId = movieInfo?.id else { return }
-        movieDetailService.movieDetail(id: movieId) { [weak self] result in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
+        
+        taskRequestGroup.enter()
+        queue.async(group: taskRequestGroup) {
+            self.movieDetailService.movieDetail(id: movieId) { [weak self] result in
+                guard let self = self else { return }
+   
                 switch result {
                 case let .success(movie):
                     self.movieDetail = movie
-                    self.tableView.reloadData()
                 case let .failure(error):
-                    self.showError(error: error.localizedDescription) { _ in
-                        self.navigationController?.popViewController(animated: true)
-                    }
+                    self.error = error
                 }
-                self.activityIndicator.stopAnimating()
+                taskRequestGroup.leave()
+            }
+        }
+        
+        taskRequestGroup.enter()
+        queue.async(group: taskRequestGroup) {
+            self.movieVideoService.movieVideo(id: movieId) { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case let .success(responseVideo):
+                    self.movieVideo = responseVideo.results
+                case let .failure(error):
+                    self.error = error
+                }
+                taskRequestGroup.leave()
+            }
+        }
+        
+        taskRequestGroup.notify(queue: .main) { [weak self] in
+            if let error = self?.error {
+                self?.showError(error: error.localizedDescription) { [weak self] _ in
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                self?.tableView.reloadData()
+                self?.activityIndicator.stopAnimating()
             }
         }
     }
@@ -60,7 +92,7 @@ class MovieDetailsViewController: UIViewController {
 
 extension MovieDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieDetail == nil ? 0 : 2
+        return movieDetail == nil ? 0 : 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,8 +109,22 @@ extension MovieDetailsViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: MovieOverviewCell.identifier, for: indexPath) as! MovieOverviewCell
             cell.configure(with: movieDetail.overview)
             return cell
+        case 2:
+            guard let movieVideo = movieVideo else {
+                return UITableViewCell()
+            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: MovieVideoCell.identifier, for: indexPath) as! MovieVideoCell
+            cell.configure(with: movieVideo)
+            return cell
         default:
             return UITableViewCell()
         }
+    }
+    
+}
+
+extension MovieDetailsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.row == 2 ? CGFloat(250) : UITableView.automaticDimension
     }
 }
