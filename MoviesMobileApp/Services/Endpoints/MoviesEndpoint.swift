@@ -12,6 +12,7 @@ enum MoviesEndpoint {
     case getMovieDetails(id: Int)
     case searchMovies(query: String, page: Int)
     case getVideo(id: Int)
+    case getGenre
 }
 
 extension MoviesEndpoint: EndpointProtocol {
@@ -30,6 +31,8 @@ extension MoviesEndpoint: EndpointProtocol {
             return "/3/search/movie"
         case let .getVideo(id):
             return "/3/movie/\(id)/videos"
+        case .getGenre:
+            return "/3/genre/movie/list"
         }
     }
     
