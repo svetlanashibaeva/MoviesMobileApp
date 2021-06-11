@@ -46,7 +46,7 @@
             </objects>
             <point key="canvasLocation" x="2384.057971014493" y="-210.26785714285714"/>
         </scene>
-        <!--Filters View Controller-->
+        <!--Фильтры-->
         <scene sceneID="JIC-Jr-gvO">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="vmY-Ov-E3y" customClass="FiltersViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -210,7 +210,13 @@
                             <outlet property="delegate" destination="vmY-Ov-E3y" id="rbN-5f-3lB"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="76I-qh-ADj"/>
+                    <navigationItem key="navigationItem" title="Фильтры" largeTitleDisplayMode="never" id="76I-qh-ADj">
+                        <barButtonItem key="rightBarButtonItem" title="Сбросить" id="bBV-jK-btm">
+                            <connections>
+                                <action selector="resetFilters:" destination="vmY-Ov-E3y" id="CZK-hs-aC7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="filtersTableView" destination="nqc-13-nx3" id="plL-vq-qxj"/>
                         <segue destination="djO-y2-CG8" kind="show" identifier="Show genres segue" id="YvR-JN-Vmg"/>
@@ -220,7 +226,7 @@
             </objects>
             <point key="canvasLocation" x="3284.057971014493" y="-463.39285714285711"/>
         </scene>
-        <!--Select Genre View Controller-->
+        <!--Жанры-->
         <scene sceneID="DR6-8t-2zb">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="djO-y2-CG8" customClass="SelectGenreViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -269,7 +275,7 @@
                             <outlet property="delegate" destination="djO-y2-CG8" id="Jvo-es-MLy"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="asx-8C-acF">
+                    <navigationItem key="navigationItem" title="Жанры" id="asx-8C-acF">
                         <barButtonItem key="rightBarButtonItem" title="Выбрать" id="iGg-gb-2AG">
                             <connections>
                                 <action selector="buttonSelectClick:" destination="djO-y2-CG8" id="MNm-1s-LHc"/>

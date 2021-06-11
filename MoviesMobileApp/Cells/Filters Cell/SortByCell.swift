@@ -27,6 +27,19 @@ class SortByCell: UITableViewCell {
             break
         }
     }
+    
+    func configure(sort: String) {
+        sortBy = SortBy(rawValue: sort) ?? .popularity
+        
+        switch sortBy {
+        case .popularity:
+            sortBySegmentedControll.selectedSegmentIndex = 0
+        case .voteAverage:
+            sortBySegmentedControll.selectedSegmentIndex = 1
+        case .releaseDate:
+            sortBySegmentedControll.selectedSegmentIndex = 2
+        }
+    }
 }
 
 extension SortByCell: FiltersProtocol {

@@ -15,8 +15,14 @@ class FiltersViewController: UITableViewController {
 
     @IBOutlet var filtersTableView: UITableView!
     
-    private var genresArray = [Genre]()
-//    var filters = [Filter]()
+    var filters = [Filter]()
+    
+    private var genresArray: [Genre] {
+        return filters.compactMap { filter -> [Genre]? in
+            guard case let .genres(genres) = filter else { return nil }
+            return genres
+        }.first ?? []
+    }
     
     weak var delegate: SelectedFiltersDelegate?
     
@@ -35,6 +41,11 @@ class FiltersViewController: UITableViewController {
         delegate?.returnFilters(filters: filters)
         navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func resetFilters(_ sender: Any) {
+        filters = []
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -46,14 +57,28 @@ class FiltersViewController: UITableViewController {
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: SortByCell.identifier, for: indexPath) as! SortByCell
+            let sort = filters.compactMap { filter -> String? in
+                guard case let .sortBy(sort) = filter else { return nil }
+                return sort
+            }
+            .first
+            
+            cell.configure(sort: sort ?? "")
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectGenresCell.identifier, for: indexPath) as! SelectGenresCell
+            
             cell.configure(genres: genresArray)
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: RatingCell.identifier, for: indexPath) as! RatingCell
-            cell.ratingSlider.value = 5.0
+            let value = filters.compactMap { filter -> String? in
+                guard case let .rating(value) = filter else { return nil }
+                return value
+            }
+            .first
+            
+            cell.configure(value: value ?? "5.0")
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: ShowButtonCell.identifier, for: indexPath) as! ShowButtonCell
@@ -74,7 +99,16 @@ class FiltersViewController: UITableViewController {
 
 extension FiltersViewController: SelectedGenresDelegate {
     func returnGenres(genres: [Genre]) {
-        genresArray += genres
+        if let index = filters.firstIndex(where: { (filter) -> Bool in
+            if case .genres = filter {
+                return true
+            }
+            return false
+        }) {
+            filters.remove(at: index)
+        }
+        
+        filters.append(.genres(by: genres))
         tableView.reloadRows(at: [IndexPath(row: 1, section: 0)], with: .none)
     }
 }

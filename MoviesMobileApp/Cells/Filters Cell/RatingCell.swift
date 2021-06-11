@@ -19,6 +19,11 @@ class RatingCell: UITableViewCell {
         sender.value = currentValue
         ratingValueLabel.text = String(format: "%.1f", currentValue)
     }
+    
+    func configure(value: String) {
+        ratingValueLabel.text = value
+        ratingSlider.value = Float(value) ?? 5.0
+    }
 }
 
 extension RatingCell: FiltersProtocol {

@@ -81,6 +81,7 @@ class MoviesViewController: UICollectionViewController {
             movieVC.movieInfo = MovieInfo(id, title)
         } else if segue.identifier == "Filter Segue",
            let filterVC = segue.destination as? FiltersViewController {
+            filterVC.filters = filters
             filterVC.delegate = self
         }
     }
