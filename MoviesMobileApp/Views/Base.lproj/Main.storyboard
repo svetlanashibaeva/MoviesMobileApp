@@ -50,12 +50,12 @@
         <scene sceneID="JIC-Jr-gvO">
             <objects>
                 <tableViewController hidesBottomBarWhenPushed="YES" id="vmY-Ov-E3y" customClass="FiltersViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nqc-13-nx3">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nqc-13-nx3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Sort by Cell" rowHeight="110" id="ioB-Ln-Nu8" customClass="SortByCell" customModule="MoviesMobileApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Sort by Cell" rowHeight="110" id="ioB-Ln-Nu8" customClass="SortByCell" customModule="MoviesMobileApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="110"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ioB-Ln-Nu8" id="p59-ED-pS9">
@@ -63,7 +63,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Сортировать по:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOh-vU-Xd5">
-                                            <rect key="frame" x="20" y="19" width="374" height="21"/>
+                                            <rect key="frame" x="20" y="19" width="358" height="21"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -75,6 +75,9 @@
                                                 <segment title="Рейтингу"/>
                                                 <segment title="Новизне"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="segmentedControlChangeValue:" destination="ioB-Ln-Nu8" eventType="valueChanged" id="W0p-ky-AKJ"/>
+                                            </connections>
                                         </segmentedControl>
                                     </subviews>
                                     <constraints>
@@ -82,8 +85,8 @@
                                         <constraint firstAttribute="bottom" secondItem="0Yv-7F-5Jt" secondAttribute="bottom" constant="16" id="4zW-16-ooC"/>
                                         <constraint firstItem="0Yv-7F-5Jt" firstAttribute="trailing" secondItem="p59-ED-pS9" secondAttribute="trailingMargin" id="6Ot-8a-tk9"/>
                                         <constraint firstItem="BOh-vU-Xd5" firstAttribute="top" secondItem="p59-ED-pS9" secondAttribute="topMargin" constant="8" id="I0F-8F-ZlR"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="BOh-vU-Xd5" secondAttribute="trailing" id="MnR-25-Qoi"/>
                                         <constraint firstItem="BOh-vU-Xd5" firstAttribute="leading" secondItem="p59-ED-pS9" secondAttribute="leadingMargin" id="UC4-Lf-CTV"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="BOh-vU-Xd5" secondAttribute="trailing" constant="16" id="UW3-PM-3zL"/>
                                         <constraint firstItem="0Yv-7F-5Jt" firstAttribute="leading" secondItem="p59-ED-pS9" secondAttribute="leadingMargin" id="q9e-Hr-IUZ"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -127,39 +130,50 @@
                                     <outlet property="titleLabel" destination="dyX-2O-y86" id="v5n-9S-fpb"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Rating Cell" rowHeight="99" id="5fD-xB-bIh" customClass="RatingCell" customModule="MoviesMobileApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Rating Cell" rowHeight="99" id="5fD-xB-bIh" customClass="RatingCell" customModule="MoviesMobileApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="207" width="414" height="99"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5fD-xB-bIh" id="ykg-RL-WVV">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7l-Yj-AYE">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг от:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7l-Yj-AYE">
                                             <rect key="frame" x="16" y="16" width="382" height="20.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="10" minimumValueImage="0.square" catalog="system" maximumValueImage="10.square" translatesAutoresizingMaskIntoConstraints="NO" id="mF4-jn-dv1">
+                                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="10" minimumValueImage="0.square" catalog="system" maximumValueImage="10.square" translatesAutoresizingMaskIntoConstraints="NO" id="mF4-jn-dv1">
                                             <rect key="frame" x="14" y="52.5" width="386" height="31.5"/>
+                                            <connections>
+                                                <action selector="changeSliderValue:" destination="5fD-xB-bIh" eventType="valueChanged" id="egB-8P-IOu"/>
+                                            </connections>
                                         </slider>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6l-AB-DJn">
+                                            <rect key="frame" x="195" y="27" width="24" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="y7l-Yj-AYE" secondAttribute="trailing" constant="16" id="2K5-O1-aUc"/>
+                                        <constraint firstItem="A6l-AB-DJn" firstAttribute="top" secondItem="ykg-RL-WVV" secondAttribute="topMargin" constant="16" id="45f-Tu-Yvm"/>
                                         <constraint firstAttribute="trailing" secondItem="mF4-jn-dv1" secondAttribute="trailing" constant="16" id="ByD-ML-rIb"/>
                                         <constraint firstItem="y7l-Yj-AYE" firstAttribute="top" secondItem="ykg-RL-WVV" secondAttribute="top" constant="16" id="Lox-ls-21T"/>
                                         <constraint firstItem="y7l-Yj-AYE" firstAttribute="leading" secondItem="ykg-RL-WVV" secondAttribute="leading" constant="16" id="RMP-IK-Wwu"/>
                                         <constraint firstAttribute="bottom" secondItem="mF4-jn-dv1" secondAttribute="bottom" constant="16" id="epq-KL-gkH"/>
+                                        <constraint firstItem="A6l-AB-DJn" firstAttribute="centerX" secondItem="ykg-RL-WVV" secondAttribute="centerX" id="iwx-2b-efh"/>
                                         <constraint firstItem="mF4-jn-dv1" firstAttribute="leading" secondItem="ykg-RL-WVV" secondAttribute="leading" constant="16" id="ukC-Zo-jI7"/>
                                         <constraint firstItem="mF4-jn-dv1" firstAttribute="top" secondItem="y7l-Yj-AYE" secondAttribute="bottom" constant="16" id="zt6-EU-Vzw"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="ratingSlider" destination="mF4-jn-dv1" id="i38-sy-8Rk"/>
-                                    <outlet property="titleLabel" destination="y7l-Yj-AYE" id="lWH-wH-Nfz"/>
+                                    <outlet property="ratingValueLabel" destination="A6l-AB-DJn" id="TJB-Dh-93g"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Showbutton Cell" rowHeight="79" id="WVY-tD-bLO" customClass="ShowButtonCell" customModule="MoviesMobileApp" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Showbutton Cell" rowHeight="79" id="WVY-tD-bLO" customClass="ShowButtonCell" customModule="MoviesMobileApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="306" width="414" height="79"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WVY-tD-bLO" id="jBN-hD-Axt">
@@ -186,7 +200,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="showButton" destination="jBN-hD-Axt" id="8Kc-WG-QNM"/>
+                                    <outlet property="showButton" destination="XcQ-6T-KiG" id="ARa-mg-aSA"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

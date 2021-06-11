@@ -8,7 +8,7 @@
 import Foundation
 
 enum MoviesEndpoint {
-    case getMovies(page: Int)
+    case getMovies(page: Int, filtersParams: [String: String])
     case getMovieDetails(id: Int)
     case searchMovies(query: String, page: Int)
     case getVideo(id: Int)
@@ -43,8 +43,15 @@ extension MoviesEndpoint: EndpointProtocol {
         ]
         
         switch self {
-        case let .getMovies(page):
-            params["sort_by"] = "popularity.desc"
+        case let .getMovies(page, filtersParams):
+            if filtersParams.isEmpty {
+                params["sort_by"] = "popularity.desc"
+            } else {
+                filtersParams.forEach { key, value in
+                    params[key] = value
+                }
+            }
+            
             params["page"] = page.description
         case let .searchMovies(query, page):
             params["page"] = page.description

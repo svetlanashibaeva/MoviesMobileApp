@@ -19,6 +19,7 @@ class MoviesViewController: UICollectionViewController {
     private var page = 1
     private var isLoading = false
     private var isListEnded = false
+    private var filters = [Filter]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +42,7 @@ class MoviesViewController: UICollectionViewController {
     func loadData() {
         isLoading = true
         
-        movieListService.getList(page: page) { [weak self] result in
+        movieListService.getList(page: page, filters: filters) { [weak self] result in
             guard let self = self else { return }
                         
             switch result {
@@ -78,6 +79,9 @@ class MoviesViewController: UICollectionViewController {
            let id = selectedMovie?.id,
            let title = selectedMovie?.title {
             movieVC.movieInfo = MovieInfo(id, title)
+        } else if segue.identifier == "Filter Segue",
+           let filterVC = segue.destination as? FiltersViewController {
+            filterVC.delegate = self
         }
     }
     
@@ -109,6 +113,26 @@ class MoviesViewController: UICollectionViewController {
         
         performSegue(withIdentifier: "MovieDetails", sender: self)
     }
+    
+    // MARK: UICollectionViewDelegate
+    
+//    override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//        return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
+//            guard let self = self else { return nil }
+//            let movie = self.movies[indexPath.item]
+//            
+//            let detailsViewController = MovieDetailsViewController()
+//            detailsViewController.movieDetail = MovieDetail(
+//                posterPath: movie.posterPath,
+//                rating: movie.voteAverage,
+//                title: movie.title,
+//                movieId: movie.id
+//            )
+//            
+//            return detailsViewController
+//        }, actionProvider: nil)
+//    }
+    
 }
 
 extension MoviesViewController: UICollectionViewDelegateFlowLayout {
@@ -153,3 +177,13 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
         return 20
     }
 }
+
+extension MoviesViewController: SelectedFiltersDelegate {
+    func returnFilters(filters: [Filter]) {
+        self.filters = filters
+        movies = []
+        collectionView.reloadData()
+        refresh()
+    }
+}
+

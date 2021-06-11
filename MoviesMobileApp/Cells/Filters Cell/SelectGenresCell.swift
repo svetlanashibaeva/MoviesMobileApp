@@ -13,7 +13,19 @@ class SelectGenresCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var genreNameLabel: UILabel!
     
-    func configure(text: String) {
+    private var selectedGenres = [Genre]()
+    
+    func configure(genres: [Genre]) {
+        selectedGenres = genres
+        let text = genres.map({ $0.name.capitalized })
+                              .joined(separator: ", ")
+        
         genreNameLabel.text = text.isEmpty ? "любые" : text
+    }
+}
+
+extension SelectGenresCell: FiltersProtocol {
+    func getFilter() -> Filter {
+        return .genres(by: selectedGenres)
     }
 }

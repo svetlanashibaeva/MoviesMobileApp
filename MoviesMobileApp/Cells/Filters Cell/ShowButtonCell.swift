@@ -10,6 +10,6 @@ import UIKit
 class ShowButtonCell: UITableViewCell {
     static let identifier = "Showbutton Cell"
     
-    @IBOutlet weak var showButton: UIView!
+    @IBOutlet weak var showButton: UIButton!
     
 }

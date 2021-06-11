@@ -7,16 +7,18 @@
 
 import UIKit
 
+protocol SelectedFiltersDelegate: class {
+    func returnFilters(filters: [Filter])
+}
+
 class FiltersViewController: UITableViewController {
 
     @IBOutlet var filtersTableView: UITableView!
     
     private var genresArray = [Genre]()
+//    var filters = [Filter]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
+    weak var delegate: SelectedFiltersDelegate?
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show genres segue",
@@ -24,6 +26,14 @@ class FiltersViewController: UITableViewController {
             genreVC.selectedGenres = genresArray
             genreVC.delegate = self
         }
+    }
+    
+    @objc private func showButtonClick() {
+        let filters = tableView.visibleCells.compactMap { cell -> Filter? in
+            return (cell as? FiltersProtocol)?.getFilter()
+        }
+        delegate?.returnFilters(filters: filters)
+        navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Table view data source
@@ -39,16 +49,15 @@ class FiltersViewController: UITableViewController {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectGenresCell.identifier, for: indexPath) as! SelectGenresCell
-            let text = genresArray.map({ $0.name.capitalized })
-                                  .joined(separator: ", ")
-            
-            cell.configure(text: text)
+            cell.configure(genres: genresArray)
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: RatingCell.identifier, for: indexPath) as! RatingCell
+            cell.ratingSlider.value = 5.0
             return cell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: ShowButtonCell.identifier, for: indexPath) as! ShowButtonCell
+            cell.showButton.addTarget(self, action: #selector(showButtonClick), for: .touchUpInside)
             return cell
         default:
             return UITableViewCell()

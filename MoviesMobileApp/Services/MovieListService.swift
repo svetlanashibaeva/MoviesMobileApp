@@ -11,8 +11,12 @@ class MovieListService {
     
     private let apiService = ApiService<ResponseMovie>()
     
-    func getList(page: Int, completion: @escaping ((Result<ResponseMovie, Error>) -> Void)) {
-        apiService.performRequest(with: MoviesEndpoint.getMovies(page: page), completion: completion)
+    func getList(page: Int, filters: [Filter], completion: @escaping ((Result<ResponseMovie, Error>) -> Void)) {
+        var params = [String: String]()
+        filters.forEach { (filter) in
+            params[filter.key] = filter.value
+        }
+        apiService.performRequest(with: MoviesEndpoint.getMovies(page: page, filtersParams: params), completion: completion)
     }
 }
 
