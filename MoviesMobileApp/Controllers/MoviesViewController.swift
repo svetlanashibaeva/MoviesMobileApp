@@ -8,7 +8,6 @@
 import UIKit
 
 class MoviesViewController: UICollectionViewController {
-    @IBOutlet weak var moviesCollectionView: UICollectionView!
     
     private let refreshControl = UIRefreshControl()
     
@@ -25,9 +24,9 @@ class MoviesViewController: UICollectionViewController {
         super.viewDidLoad()
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        moviesCollectionView.refreshControl = refreshControl
-        moviesCollectionView.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: MovieCell.identifier)
-        moviesCollectionView.register(FooterCollectionReusableView.self,
+        collectionView.refreshControl = refreshControl
+        collectionView.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: MovieCell.identifier)
+        collectionView.register(FooterCollectionReusableView.self,
                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                                       withReuseIdentifier: FooterCollectionReusableView.identifier)
         loadData()
@@ -39,7 +38,7 @@ class MoviesViewController: UICollectionViewController {
         loadData()
     }
     
-    func loadData() {
+    private func loadData() {
         isLoading = true
         
         movieListService.getList(page: page, filters: filters) { [weak self] result in
@@ -67,7 +66,7 @@ class MoviesViewController: UICollectionViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
                     self.refreshControl.endRefreshing()
                 }
-                 self.moviesCollectionView.reloadData()
+                 self.collectionView.reloadData()
                  self.isLoading = false
              }
         }
@@ -117,23 +116,21 @@ class MoviesViewController: UICollectionViewController {
     
     // MARK: UICollectionViewDelegate
     
-//    override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-//        return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
-//            guard let self = self else { return nil }
-//            let movie = self.movies[indexPath.item]
-//            
-//            let detailsViewController = MovieDetailsViewController()
-//            detailsViewController.movieDetail = MovieDetail(
-//                posterPath: movie.posterPath,
-//                rating: movie.voteAverage,
-//                title: movie.title,
-//                movieId: movie.id
-//            )
-//            
-//            return detailsViewController
-//        }, actionProvider: nil)
-//    }
-    
+    override func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
+            guard let self = self else { return nil }
+            let movie = self.movies[indexPath.item]
+            
+            let detailsViewController = self.navigationController?.storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
+            
+            guard let id = movie.id, let title = movie.title else { return nil }
+            
+            detailsViewController?.movieInfo = MovieInfo(id, title)
+            
+            return detailsViewController
+        })
+    }
 }
 
 extension MoviesViewController: UICollectionViewDelegateFlowLayout {
@@ -143,7 +140,7 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
         let paddingWidth = 20 * (itemsPerRow + 1)
         let availableWidth = collectionView.frame.width - paddingWidth
         let widthPerItem = availableWidth / itemsPerRow
-        return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.6)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

@@ -8,30 +8,18 @@
 import Foundation
 
 enum Filter {
-    case sortBy(by: String)
+    case sortBy(by: SortBy)
     case genres(by: [Genre])
     case rating(by: String)
     
-    var key: String {
-        switch self {
-        case .sortBy:
-            return "sort_by"
-        case .genres:
-            return "with_genres"
-        case .rating:
-            return "vote_average.gte"
-        }
-    }
-    
-    var value: String {
+    var additionalParams: [String: String] {
         switch self {
         case let .sortBy(by: sort):
-            return sort
+            return ["sort_by": sort.rawValue, "vote_count.gte": sort == .voteAverage ? "5000" : "500"]
         case let .genres(by: genres):
-            return genres.map({ $0.id.description })
-                .joined(separator: ", ")
+            return ["with_genres": genres.map({ $0.id.description }).joined(separator: ", ")]
         case let .rating(by: rating):
-            return rating
+            return ["vote_average.gte": rating]
         }
     }
 }

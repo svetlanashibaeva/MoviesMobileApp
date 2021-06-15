@@ -120,7 +120,6 @@ extension MovieDetailsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
     }
-    
 }
 
 extension MovieDetailsViewController: UITableViewDelegate {

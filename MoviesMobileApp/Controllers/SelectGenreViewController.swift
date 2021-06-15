@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol SelectedGenresDelegate: class {
-    func returnGenres(genres: [Genre])
-}
-
 class SelectGenreViewController: UITableViewController {
     
     private let activityIndicator = UIActivityIndicatorView(style: .large)

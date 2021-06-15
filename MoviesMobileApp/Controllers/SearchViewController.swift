@@ -25,6 +25,7 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchController.searchBar.placeholder = "Искать..."
         collectionView.register(UINib(nibName: "MovieCell", bundle: nil), forCellWithReuseIdentifier: MovieCell.identifier)
         collectionView.register(FooterCollectionReusableView.self,
                                       forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
@@ -126,6 +127,22 @@ extension SearchViewController: UICollectionViewDelegate {
             loadData(query: searchController.searchBar.text)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: { [weak self] () -> UIViewController? in
+            guard let self = self else { return nil }
+            let movie = self.movies[indexPath.item]
+            
+            let detailsViewController = self.navigationController?.storyboard?.instantiateViewController(identifier: "MovieDetailsViewController") as? MovieDetailsViewController
+            
+            guard let id = movie.id, let title = movie.title else { return nil }
+            
+            detailsViewController?.movieInfo = MovieInfo(id, title)
+            
+            return detailsViewController
+        })
+    }
 }
 
 extension SearchViewController: UICollectionViewDelegateFlowLayout {
@@ -134,7 +151,7 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
         let paddingWidth = 20 * (itemsPerRow + 1)
         let availableWidth = collectionView.frame.width - paddingWidth
         let widthPerItem = availableWidth / itemsPerRow
-        return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.6)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {

@@ -11,26 +11,21 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="foa-GX-eBA" customClass="MovieCell" customModule="MoviesMobileApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="158" height="200"/>
+            <rect key="frame" x="0.0" y="0.0" width="158" height="269"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="j8p-Rf-8HY">
-                <rect key="frame" x="0.0" y="0.0" width="158" height="200"/>
+                <rect key="frame" x="0.0" y="0.0" width="158" height="269"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="default-image" translatesAutoresizingMaskIntoConstraints="NO" id="Nyi-z7-QaP">
-                        <rect key="frame" x="0.0" y="0.0" width="158" height="200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="158" height="206"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="206" id="bE2-Wo-WVe"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivb-pj-hub">
-                        <rect key="frame" x="8" y="164.5" width="142" height="19.5"/>
-                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0HY-nO-8la">
                         <rect key="frame" x="128" y="16" width="30" height="20"/>
-                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <color key="backgroundColor" systemColor="linkColor"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="Tuj-hu-FOs"/>
                             <constraint firstAttribute="height" constant="20" id="uPk-8n-xza"/>
@@ -39,32 +34,39 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivb-pj-hub">
+                        <rect key="frame" x="0.0" y="214" width="158" height="54"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Ivb-pj-hub" firstAttribute="top" secondItem="Nyi-z7-QaP" secondAttribute="bottom" constant="8" id="7A9-ct-tt4"/>
                     <constraint firstAttribute="trailing" secondItem="0HY-nO-8la" secondAttribute="trailing" id="7y9-D3-dgd"/>
-                    <constraint firstAttribute="trailing" secondItem="Ivb-pj-hub" secondAttribute="trailing" constant="8" id="8Bk-Xw-d36"/>
-                    <constraint firstAttribute="bottom" secondItem="Ivb-pj-hub" secondAttribute="bottom" constant="16" id="N90-ax-FUi"/>
+                    <constraint firstAttribute="trailing" secondItem="Ivb-pj-hub" secondAttribute="trailing" id="8Bk-Xw-d36"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ivb-pj-hub" secondAttribute="bottom" id="N90-ax-FUi"/>
                     <constraint firstItem="0HY-nO-8la" firstAttribute="top" secondItem="j8p-Rf-8HY" secondAttribute="top" constant="16" id="OIh-fe-Gmz"/>
                     <constraint firstItem="Nyi-z7-QaP" firstAttribute="top" secondItem="j8p-Rf-8HY" secondAttribute="top" id="PJ3-Sl-c5g"/>
                     <constraint firstAttribute="trailing" secondItem="Nyi-z7-QaP" secondAttribute="trailing" id="Rg8-Be-SBL"/>
-                    <constraint firstItem="Ivb-pj-hub" firstAttribute="leading" secondItem="j8p-Rf-8HY" secondAttribute="leading" constant="8" id="XTm-be-woV"/>
-                    <constraint firstAttribute="bottom" secondItem="Nyi-z7-QaP" secondAttribute="bottom" id="kVX-K8-tHg"/>
+                    <constraint firstItem="Ivb-pj-hub" firstAttribute="leading" secondItem="j8p-Rf-8HY" secondAttribute="leading" id="XTm-be-woV"/>
                     <constraint firstItem="Nyi-z7-QaP" firstAttribute="leading" secondItem="j8p-Rf-8HY" secondAttribute="leading" id="klI-rH-0oB"/>
                 </constraints>
             </collectionViewCellContentView>
-            <size key="customSize" width="158" height="200"/>
+            <size key="customSize" width="158" height="269"/>
             <connections>
                 <outlet property="movieImageView" destination="Nyi-z7-QaP" id="4wa-1i-fCZ"/>
                 <outlet property="ratingLabel" destination="0HY-nO-8la" id="Lic-tk-txh"/>
                 <outlet property="titleLabel" destination="Ivb-pj-hub" id="qjC-Qs-YR1"/>
             </connections>
-            <point key="canvasLocation" x="-213" y="2"/>
+            <point key="canvasLocation" x="-213.04347826086959" y="24.441964285714285"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="default-image" width="620" height="600"/>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

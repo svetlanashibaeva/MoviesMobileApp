@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -38,7 +37,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="moviesCollectionView" destination="Tdm-xA-Zh7" id="xio-TK-qdD"/>
                         <segue destination="j9r-Fl-Oo8" kind="show" identifier="MovieDetails" id="UWq-Xv-g7g"/>
                     </connections>
                 </collectionViewController>
@@ -92,7 +90,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="sortBySegmentedControll" destination="0Yv-7F-5Jt" id="9ZG-8e-eQA"/>
-                                    <outlet property="titleLabel" destination="BOh-vU-Xd5" id="f6U-tA-x3y"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Genre Cell" rowHeight="69" id="tyb-YX-mpc" customClass="SelectGenresCell" customModule="MoviesMobileApp" customModuleProvider="target">
@@ -127,7 +124,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="genreNameLabel" destination="hMY-1w-0Sc" id="mLO-ci-S1p"/>
-                                    <outlet property="titleLabel" destination="dyX-2O-y86" id="v5n-9S-fpb"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="Rating Cell" rowHeight="99" id="5fD-xB-bIh" customClass="RatingCell" customModule="MoviesMobileApp" customModuleProvider="target">
@@ -182,7 +178,7 @@
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XcQ-6T-KiG">
                                             <rect key="frame" x="16" y="16" width="382" height="47"/>
-                                            <color key="backgroundColor" name="AccentColor"/>
+                                            <color key="backgroundColor" systemColor="linkColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="47" id="dSW-Pi-lCB"/>
                                             </constraints>
@@ -218,7 +214,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="filtersTableView" destination="nqc-13-nx3" id="plL-vq-qxj"/>
                         <segue destination="djO-y2-CG8" kind="show" identifier="Show genres segue" id="YvR-JN-Vmg"/>
                     </connections>
                 </tableViewController>
@@ -333,12 +328,12 @@
         <!--Movie Details View Controller-->
         <scene sceneID="Zxa-Jy-uzx">
             <objects>
-                <viewController id="j9r-Fl-Oo8" customClass="MovieDetailsViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieDetailsViewController" id="j9r-Fl-Oo8" customClass="MovieDetailsViewController" customModule="MoviesMobileApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="o9Z-fu-YFJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8VM-M7-9wb">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8VM-M7-9wb">
                                 <rect key="frame" x="0.0" y="140" width="414" height="673"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -410,8 +405,8 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wc2-CX-q94">
-                                                    <rect key="frame" x="142" y="27" width="30" height="20"/>
-                                                    <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                                    <rect key="frame" x="158" y="27" width="30" height="20"/>
+                                                    <color key="backgroundColor" systemColor="linkColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="AHn-6M-X0U"/>
                                                         <constraint firstAttribute="width" constant="30" id="Mvl-Lc-1Hu"/>
@@ -425,7 +420,7 @@
                                                 <constraint firstItem="Jb8-Qt-72q" firstAttribute="top" secondItem="qM1-m1-k3v" secondAttribute="top" constant="16" id="Kir-u8-6IJ"/>
                                                 <constraint firstItem="zSV-eU-A3a" firstAttribute="leading" secondItem="Jb8-Qt-72q" secondAttribute="trailing" constant="16" id="Sio-fT-58d"/>
                                                 <constraint firstAttribute="trailing" secondItem="zSV-eU-A3a" secondAttribute="trailing" constant="8" id="UnA-KR-Sbn"/>
-                                                <constraint firstItem="zSV-eU-A3a" firstAttribute="leading" secondItem="Wc2-CX-q94" secondAttribute="trailing" constant="32" id="WSX-1o-WBn"/>
+                                                <constraint firstItem="zSV-eU-A3a" firstAttribute="leading" secondItem="Wc2-CX-q94" secondAttribute="trailing" constant="16" id="WSX-1o-WBn"/>
                                                 <constraint firstItem="Wc2-CX-q94" firstAttribute="top" secondItem="qM1-m1-k3v" secondAttribute="topMargin" constant="16" id="ceg-Y9-bSV"/>
                                                 <constraint firstItem="zSV-eU-A3a" firstAttribute="top" secondItem="qM1-m1-k3v" secondAttribute="top" constant="16" id="fYD-i6-zhP"/>
                                                 <constraint firstAttribute="bottom" secondItem="zSV-eU-A3a" secondAttribute="bottom" constant="16" id="jly-bF-T9t"/>
@@ -554,7 +549,7 @@
         <scene sceneID="MJ2-Vh-uYg">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kcc-hk-j5a" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Главная" id="Irh-Cy-CTa"/>
+                    <tabBarItem key="tabBarItem" title="Главная" image="house" catalog="system" selectedImage="house" id="Irh-Cy-CTa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Grf-Tu-aE8">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -573,7 +568,7 @@
         <scene sceneID="NIu-jy-3kB">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="b1R-Vz-UjD" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Поиск" id="uGx-h5-myA"/>
+                    <tabBarItem key="tabBarItem" title="Поиск" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="uGx-h5-myA"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="D9B-ve-GBE">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
@@ -596,15 +591,14 @@
         <image name="0.square" catalog="system" width="128" height="114"/>
         <image name="10.square" catalog="system" width="128" height="114"/>
         <image name="checkmark" catalog="system" width="128" height="114"/>
+        <image name="house" catalog="system" width="128" height="106"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <image name="slider.horizontal.3" catalog="system" width="128" height="100"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

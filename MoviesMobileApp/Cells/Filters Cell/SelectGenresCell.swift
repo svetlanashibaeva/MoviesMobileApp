@@ -10,7 +10,6 @@ import UIKit
 class SelectGenresCell: UITableViewCell {
     static let identifier = "Genre Cell"
     
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var genreNameLabel: UILabel!
     
     private var selectedGenres = [Genre]()

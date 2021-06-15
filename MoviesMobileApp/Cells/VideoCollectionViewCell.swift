@@ -22,11 +22,7 @@ class VideoCollectionViewCell: UICollectionViewCell, YTPlayerViewDelegate {
     }
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        addSubviews()
-        configureSubviews()
-        setConstraints()
+        fatalError()
     }
     
     required init?(coder: NSCoder) {
@@ -44,8 +40,8 @@ class VideoCollectionViewCell: UICollectionViewCell, YTPlayerViewDelegate {
     }
     
     private func addSubviews() {
-        self.addSubview(labelName)
-        self.addSubview(playerView)
+        addSubview(labelName)
+        addSubview(playerView)
     }
     
     private func setConstraints() {
@@ -53,14 +49,14 @@ class VideoCollectionViewCell: UICollectionViewCell, YTPlayerViewDelegate {
         labelName.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            playerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
-            playerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            playerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            playerView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            playerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            playerView.trailingAnchor.constraint(equalTo: trailingAnchor),
                                               
             labelName.topAnchor.constraint(equalTo: playerView.bottomAnchor, constant: 8),
-            labelName.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
-            labelName.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            labelName.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            labelName.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            labelName.leadingAnchor.constraint(equalTo: leadingAnchor),
+            labelName.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
     
@@ -78,5 +74,4 @@ class VideoCollectionViewCell: UICollectionViewCell, YTPlayerViewDelegate {
         playerView.load(withVideoId: key)
         labelName.text = title
     }
-    
 }

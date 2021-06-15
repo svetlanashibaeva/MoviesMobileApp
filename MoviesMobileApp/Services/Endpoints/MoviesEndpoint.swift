@@ -46,6 +46,7 @@ extension MoviesEndpoint: EndpointProtocol {
         case let .getMovies(page, filtersParams):
             if filtersParams.isEmpty {
                 params["sort_by"] = "popularity.desc"
+                params["vote_count.gte"] = "500"
             } else {
                 filtersParams.forEach { key, value in
                     params[key] = value

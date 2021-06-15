@@ -11,11 +11,7 @@ struct GenreResponse: Decodable {
     let genres: [Genre]
 }
 
-struct Genre: Decodable {
+struct Genre: Decodable, Equatable {
     let id: Int
     let name: String
-}
-
-extension Genre: Equatable {
-    
 }

@@ -12,10 +12,13 @@ class MovieListService {
     private let apiService = ApiService<ResponseMovie>()
     
     func getList(page: Int, filters: [Filter], completion: @escaping ((Result<ResponseMovie, Error>) -> Void)) {
-        var params = [String: String]()
-        filters.forEach { (filter) in
-            params[filter.key] = filter.value
+       
+        let params = filters.reduce([String: String]()) { result, filter in
+            var result = result
+            result.merge(filter.additionalParams) { current, _ in current}
+            return result
         }
+        
         apiService.performRequest(with: MoviesEndpoint.getMovies(page: page, filtersParams: params), completion: completion)
     }
 }

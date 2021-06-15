@@ -7,13 +7,7 @@
 
 import UIKit
 
-protocol SelectedFiltersDelegate: class {
-    func returnFilters(filters: [Filter])
-}
-
 class FiltersViewController: UITableViewController {
-
-    @IBOutlet var filtersTableView: UITableView!
     
     var filters = [Filter]()
     
@@ -57,13 +51,13 @@ class FiltersViewController: UITableViewController {
         switch indexPath.item {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: SortByCell.identifier, for: indexPath) as! SortByCell
-            let sort = filters.compactMap { filter -> String? in
+            let sort = filters.compactMap { filter -> SortBy? in
                 guard case let .sortBy(sort) = filter else { return nil }
                 return sort
             }
             .first
             
-            cell.configure(sort: sort ?? "")
+            cell.configure(sort: sort ?? .popularity)
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectGenresCell.identifier, for: indexPath) as! SelectGenresCell

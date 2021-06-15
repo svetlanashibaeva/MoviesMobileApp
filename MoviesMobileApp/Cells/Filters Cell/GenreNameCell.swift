@@ -9,6 +9,7 @@ import UIKit
 
 class GenreNameCell: UITableViewCell {
     static let identifier = "Name genre"
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
     

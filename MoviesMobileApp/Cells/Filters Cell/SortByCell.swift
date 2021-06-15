@@ -10,7 +10,6 @@ import UIKit
 class SortByCell: UITableViewCell {
     static let identifier = "Sort by Cell"
     
-    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sortBySegmentedControll: UISegmentedControl!
     
     private var sortBy: SortBy = .popularity
@@ -28,8 +27,8 @@ class SortByCell: UITableViewCell {
         }
     }
     
-    func configure(sort: String) {
-        sortBy = SortBy(rawValue: sort) ?? .popularity
+    func configure(sort: SortBy) {
+        sortBy = sort
         
         switch sortBy {
         case .popularity:
@@ -44,6 +43,6 @@ class SortByCell: UITableViewCell {
 
 extension SortByCell: FiltersProtocol {
     func getFilter() -> Filter {
-        return .sortBy(by: sortBy.rawValue)
+        return .sortBy(by: sortBy)
     }
 }
